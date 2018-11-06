@@ -6,11 +6,10 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import com.test.rxjavademo.bean.RxJavaBean;
 import com.test.rxjavademo.bean.Student;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
+import io.reactivex.*;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import java.io.File;
 
@@ -36,6 +35,11 @@ public interface RxJavaObservable {
             emitter.onComplete();
         }
     });
+//    }).subscribeOn(Schedulers.newThread())
+//            //不管用了几个subscribeOn最终只第一次有效
+//            //.subscribeOn(Schedulers.io());
+//            //集成RxAndroid
+//            .observeOn(AndroidSchedulers.mainThread());
 
     /**
      * 图片
@@ -100,20 +104,18 @@ public interface RxJavaObservable {
     /**
      * FlatMap转换
      */
-    Student.Course course=new Student.Course("java");
-    Student.Course course1=new Student.Course("C#");
-    Student.Course course2=new Student.Course(".NET");
-    Student.Course course3=new Student.Course("Python");
-    Student.Course course4=new Student.Course("PHP");
-    Student.Course [] courseList={course,course1,course2,course3,course4};
-    Student student=new Student("A",courseList);
+    Student.Course course = new Student.Course("java");
+    Student.Course course1 = new Student.Course("C#");
+    Student.Course course2 = new Student.Course(".NET");
+    Student.Course course3 = new Student.Course("Python");
+    Student.Course course4 = new Student.Course("PHP");
+    Student.Course[] courseList = {course, course1, course2, course3, course4};
+    Student student = new Student("A", courseList);
 
-    Observable<Student.Course> observableFlatMap=Observable.fromArray(student).flatMap(new Function<Student, ObservableSource<Student.Course>>() {
+    Observable<Student.Course> observableFlatMap = Observable.fromArray(student).flatMap(new Function<Student, ObservableSource<Student.Course>>() {
         @Override
         public ObservableSource<Student.Course> apply(Student student) throws Exception {
             return Observable.fromArray(student.getmCourseList());
         }
     });
-
-
 }
