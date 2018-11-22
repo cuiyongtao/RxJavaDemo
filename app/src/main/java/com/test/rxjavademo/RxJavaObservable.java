@@ -111,7 +111,6 @@ public interface RxJavaObservable {
     Student.Course course4 = new Student.Course("PHP");
     Student.Course[] courseList = {course, course1, course2, course3, course4};
     Student student = new Student("A", courseList);
-
     Observable<Student.Course> observableFlatMap = Observable.fromArray(student).flatMap(new Function<Student, ObservableSource<Student.Course>>() {
         @Override
         public ObservableSource<Student.Course> apply(Student student) throws Exception {
