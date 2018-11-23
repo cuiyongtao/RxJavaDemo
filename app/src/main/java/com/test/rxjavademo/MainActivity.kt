@@ -10,8 +10,10 @@ import com.test.rxjavademo.RxJavaObservable.*
 import com.test.rxjavademo.bean.RxJavaBean
 import com.test.rxjavademo.bean.Student
 import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import kotlin.math.log
 
 class MainActivity : AppCompatActivity(), RxJavaObservable {
@@ -228,7 +230,8 @@ class MainActivity : AppCompatActivity(), RxJavaObservable {
             } catch (e: InterruptedException) {
                 Log.e(TAG, "onNext:${e.toString()} ")
             }
-        }).subscribe(object : Observer<String> {
+        }).subscribeOn(Schedulers.newThread()).
+            observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<String> {
             override fun onComplete() {
 
             }
